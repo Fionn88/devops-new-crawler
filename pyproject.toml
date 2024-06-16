@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "devops-new-crawler"
+version = "0.1.0"
+description = ""
+authors = ["Yuan-Heng,Kuo <coco8802231225@gmail.com>"]
+readme = "README.md"
+packages = [{include = "devops_new_crawler"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bs4 = "^0.0.2"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+flake8 = "^7.0.0"
+sqlalchemy = "^2.0.30"
+mysqlclient = "^2.2.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
