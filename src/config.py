@@ -7,6 +7,7 @@ load_dotenv()
 
 LOGGING_LEVEL = os.environ.get("LOGGING_LEVEL")
 FIRST_CRAWL = os.environ.get("FIRST_CRAWL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 FORMAT = '%(asctime)s %(filename)s %(levelname)s:%(message)s'
 

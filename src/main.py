@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import config
 import datetime
+import database
+import logging
 
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple\
           WebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'}
@@ -39,8 +41,9 @@ def crawl(page, if_daliy) -> list:
                     int(compare_date[1]),
                     int(compare_date[2])
                     ):
+                id = link[link[:-1].rfind('/')+1:-1]
                 data.append(
-                    [str(page) + "_" + str(index), all_subjects[index].text, tags,
+                    [id, all_subjects[index].text, tags,
                      formatted_date, author, link]
                     )
             else:
@@ -53,8 +56,9 @@ def crawl(page, if_daliy) -> list:
                     int(compare_date[1]),
                     int(compare_date[2])
                     ):
+                id = link[link[:-1].rfind('/')+1:-1]
                 data.append(
-                    [str(page) + "_" + str(index), all_subjects[index].text, tags,
+                    [id, all_subjects[index].text, tags,
                      formatted_date, author, link]
                     )
             else:
@@ -64,8 +68,8 @@ def crawl(page, if_daliy) -> list:
 
 
 def scrape_last_six_months_articles():
-    # init db
 
+    database.create_tables()
     result = []
     page = 1
     if_loop = True
@@ -73,8 +77,7 @@ def scrape_last_six_months_articles():
         data_list, if_loop = crawl(page, False)
         result.extend(data_list)
         page += 1
-    # return data to db
-    print(result)
+    database.insert_data(result)
 
 
 def scrape_last_two_days_articles():
@@ -85,8 +88,11 @@ def scrape_last_two_days_articles():
         data_list, if_loop = crawl(page, True)
         result.extend(data_list)
         page += 1
-    # return data to db
-    print(result)
+    if result:
+        database.insert_data(result)
+    else:
+        logging.info("There's no data available for the past two days.")
+    
 
 
 if __name__ == "__main__":
