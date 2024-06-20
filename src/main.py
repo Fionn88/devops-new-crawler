@@ -92,7 +92,6 @@ def scrape_last_two_days_articles():
         database.insert_data(result)
     else:
         logging.info("There's no data available for the past two days.")
-    
 
 
 if __name__ == "__main__":
